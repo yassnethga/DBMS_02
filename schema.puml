@@ -1,84 +1,8 @@
 @startuml
-' ============================================================
-'  schema.puml -- ER Diagram: Bochum City Library
-'  DBMS_02 · THGA Bochum
-' ============================================================
 
-skinparam linetype ortho
-skinparam defaultFontName Helvetica
-skinparam defaultFontSize 12
-skinparam entityBackgroundColor #CCE5FF
-skinparam entityBorderColor     #003C7C
-skinparam entityFontColor       #003C7C
-skinparam entityFontStyle       bold
-
-' ------------------------------------------------------------
-' Entities
-' ------------------------------------------------------------
-
-entity "Book" as B {
-  * ISBN              : CHAR(13)    <<PK>>
-  --
-  Title               : VARCHAR(200)
-  PublicationYear     : INTEGER
-}
-
-entity "Author" as A {
-  * AuthorID          : INTEGER     <<PK>>
-  --
-  LastName            : VARCHAR(100)
-  FirstName           : VARCHAR(100)
-  Nationality         : VARCHAR(50)
-}
-
-entity "Copy" as C {
-  * CopyNo            : INTEGER     <<PK>>
-  --
-  ShelfLocation       : VARCHAR(30)
-  Condition           : VARCHAR(20)
-}
-
-entity "Member" as M {
-  * MemberNo          : INTEGER     <<PK>>
-  --
-  LastName            : VARCHAR(100)
-  FirstName           : VARCHAR(100)
-  Email               : VARCHAR(150)
-  EnrolmentDate       : DATE
-}
-
-entity "Loan" as L {
-  * LoanID            : INTEGER     <<PK>>
-  --
-  LoanDate            : DATE
-  ReturnDate          : DATE
-}
-
-' ============================================================
-' TODO: Add relationships here
-'
-' Crow's Foot notation:
-'   ||   exactly one     (mandatory one)
-'   |{   one or more     (one or more)
-'   o{   zero or more    (zero or more)
-'   o|   zero or one     (optional one)
-'
-' Syntax:
-'   EntityA [left-notation]--[right-notation] EntityB : "label"
-'
-' Example:
-'   Department ||--|{ Employee : "employs"
-'   (A department employs 1..N employees;
-'    an employee belongs to exactly one department.)
-'
-' Your task -- model these four relationships from the scenario:
-'
-'   1. Author  -- writes --          Book    (N:M)
-'   2. Book    -- is available as -- Copy    (1:1..N)
-'   3. Member  -- places --          Loan    (1:0..N)
-'   4. Copy    -- is borrowed in --  Loan    (1:0..N)
-'
-' ============================================================
-
+A }|--|{ B : "writes"
+B ||--|{ C : "is available as"
+M ||--o{ L : "places"
+C ||--o{ L : "is borrowed in"
 
 @enduml

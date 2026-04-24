@@ -729,3 +729,4 @@ instead.
 - [Semantic Versioning](https://semver.org)
 - [GitHub CLI – `gh release create`](https://cli.github.com/manual/gh_release_create)
 - [Docs as Code – Write the Docs](https://www.writethedocs.org/guide/docs-as-code/)
+# trigger

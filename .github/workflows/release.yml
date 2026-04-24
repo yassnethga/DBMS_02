@@ -1,0 +1,28 @@
+name: Render Schema & Publish Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  render-and-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install PlantUML
+        run: sudo apt-get install -y plantuml
+
+      - name: Render SVG from PlantUML source
+        run: plantuml -tsvg schema.puml
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ github.ref_name }}" schema.svg

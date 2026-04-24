@@ -65,7 +65,7 @@ git --version
 > **Screenshot 1:** Take a screenshot of your terminal showing all three
 > successful version checks and insert it here.
 >
-> `[insert screenshot]`
+> [`https://github.com/yassnethga/DBMS_02/blob/4a537702d618a56fb6185ec92337c9fc9c5f576e/01_terminal_version_check.png.png`](https://github.com/yassnethga/DBMS_02/blob/0ea39e07e172bf5c6182facfcf2cd116ced76588/01_terminal_version_check.png.png)
 
 ---
 
@@ -217,12 +217,14 @@ ellipses). PlantUML uses Crow's Foot notation. Describe one concrete difference
 in how an N:M relationship is represented in each notation.
 
 > *Your answer:*
+  Chen nutzt eine Relationship-Diamond, Crow’s Foot zeigt N:M direkt mit }|--|{. Join-Tabellen entstehen erst im relationalen Modell.
 
 **Question 2.2:** What would happen if you wrote `@startuml Library` instead of
 `@startuml` at the top of `schema.puml`? Try it locally (`plantuml -tsvg schema.puml`)
 and observe the output filename. Why would this break the workflow?
 
 > *Your answer:*
+  @startuml Library ändert den Output-Dateinamen. CI erwartet aber schema.svg, daher kann der Workflow brechen.
 
 **Question 2.3:** The `Author`–`Book` relationship is N:M. Does your PlantUML
 diagram require you to model the intermediate join table explicitly, or does
@@ -230,6 +232,7 @@ PlantUML abstract it away? At which stage of the design process would the join
 table appear?
 
 > *Your answer:*
+  PlantUML abstrahiert N:M. Die Join-Tabelle entsteht erst im relationalen Datenbankdesign, nicht im ER-Modell.
 
 ---
 
@@ -296,7 +299,7 @@ Open `schema.svg` in a browser or SVG viewer.
 > **Screenshot 2:** Take a screenshot of `schema.svg` open in your browser,
 > showing all five entities and all four relationships, and insert it here.
 >
-> `[insert screenshot]`
+> [`https://github.com/yassnethga/DBMS_02/blob/0ea39e07e172bf5c6182facfcf2cd116ced76588/02_schema_svg_browser.png.png`](https://github.com/yassnethga/DBMS_02/blob/0ea39e07e172bf5c6182facfcf2cd116ced76588/02_schema_svg_browser.png.png)
 
 Once the diagram looks correct, tell Git to ignore the generated artifact.
 The workflow will recreate it on every release:
@@ -325,13 +328,14 @@ Name one shell command you could use to check the exit code of the last command
 and verify that the render succeeded, without opening the SVG file.
 
 > *Your answer:*
+  echo $? → zeigt Exit-Code (0 = Erfolg).
 
 **Question 3.2:** Delete `schema.svg` and run `plantuml -tsvg schema.puml` again.
 Then run `git status`. Is `schema.svg` shown as an untracked file? Explain why
 or why not.
 
 > *Your answer:*
-
+  Ja, schema.svg wird neu erstellt, aber bleibt untracked wegen .gitignore.
 ---
 
 ## 4 – Git Tags: Versioned Snapshots
@@ -398,7 +402,7 @@ git tag
 > **Screenshot 3:** Take a screenshot of `git log --oneline -5` showing your
 > commits in order, and insert it here.
 >
-> `[insert screenshot]`
+> [`https://github.com/yassnethga/DBMS_02/blob/0ea39e07e172bf5c6182facfcf2cd116ced76588/03_git_log.png.png`](https://github.com/yassnethga/DBMS_02/blob/0ea39e07e172bf5c6182facfcf2cd116ced76588/03_git_log.png.png)
 
 > **Caveat:** Tags are not pushed automatically with `git push origin main`.
 > You must push them explicitly. Forgetting this step means the workflow never
@@ -410,12 +414,12 @@ git tag
 your fork on GitHub. Did any workflow run trigger? Explain why or why not.
 
 > *Your answer:*
-
+  Kein Workflow, weil nur Tags (v*) Trigger sind, nicht main.
 **Question 4.2:** Run `git tag -v v1.0.0`. What information is shown that
 `git tag` alone does not display? What does the `-v` flag verify?
 
 > *Your answer:*
-
+  git tag -v zeigt Metadaten und prüft den Tag (Signatur/Validität).
 ---
 
 ## 5 – GitHub Actions Workflow
@@ -558,6 +562,7 @@ if you replaced it with `on: push: branches: ['main']`? Would the release
 workflow still make sense? Why or why not?
 
 > *Your answer:*
+  Bei main würde Workflow bei jedem Push laufen → keine echten Releases mehr.
 
 **Question 5.2:** The step `apt-get install plantuml` takes roughly 20–30 seconds
 on every run. In a larger team with many releases per day, this adds up. Name
@@ -565,7 +570,7 @@ one GitHub Actions mechanism that could eliminate this installation time on
 repeated runs.
 
 > *Your answer:*
-
+  Caching (z. B. actions/cache) spart Installationszeit.
 ---
 
 ## 6 – Push the Tag and Verify the Release
@@ -590,7 +595,7 @@ Open your fork on GitHub and navigate to the **Actions** tab.
 > **Screenshot 4:** Take a screenshot of the completed GitHub Actions run
 > showing all four steps with green checkmarks, and insert it here.
 >
-> `[insert screenshot]`
+> [`(https://github.com/yassnethga/DBMS_02/blob/4a537702d618a56fb6185ec92337c9fc9c5f576e/4%20r.png)`](https://github.com/yassnethga/DBMS_02/blob/4a537702d618a56fb6185ec92337c9fc9c5f576e/4%20r.png)
 
 Once the workflow has completed, navigate to **Releases** in the right sidebar.
 
@@ -602,7 +607,7 @@ Once the workflow has completed, navigate to **Releases** in the right sidebar.
 > release title, the release notes, and the `schema.svg` download link, and
 > insert it here.
 >
-> `[insert screenshot]`
+> [`https://github.com/yassnethga/DBMS_02/blob/6ef098398ce3c26eabd5d9b9e6ad25f6d424ba69/5.png`](https://github.com/yassnethga/DBMS_02/blob/6ef098398ce3c26eabd5d9b9e6ad25f6d424ba69/5.png)
 
 ### Questions for Task 6
 
@@ -612,6 +617,7 @@ Which takes longer, and by approximately what factor? What does this suggest
 about where optimisation effort should be directed?
 
 > *Your answer:*
+  Install dauert viel länger als Render → Optimierung bei Dependencies.
 
 **Question 6.2:** Download `schema.svg` from the Release page and compare it
 to the `schema.svg` you rendered locally with `plantuml -tsvg schema.puml`.
@@ -619,7 +625,7 @@ Are they identical? What does this tell you about the reproducibility of the
 build process?
 
 > *Your answer:*
-
+  Ja, beide SVGs sind identisch → Build ist reproduzierbar.
 ---
 
 ## Reflection
@@ -633,6 +639,7 @@ your schema. What would be different if you had stored the diagram as a
 lose?
 
 > *Your answer:*
+ Binary-Dateien sind nicht diffbar, Text (PlantUML) schon.
 
 **Question B – Collaboration:**
 Imagine two people editing `schema.puml` simultaneously on separate branches –
@@ -641,6 +648,7 @@ Git can show a textual diff of the conflict. Would this be possible with a
 binary diagram file? What practical consequence does this have for a team?
 
 > *Your answer:*
+  Text erlaubt Merge-Konflikte, Binary nicht → manuelle Arbeit nötig.
 
 **Question C – Tag vs. branch for releases:**
 You tagged a specific commit as `v1.0.0` rather than pushing to a branch called
@@ -648,6 +656,7 @@ You tagged a specific commit as `v1.0.0` rather than pushing to a branch called
 Under what circumstance would someone want to use a branch instead?
 
 > *Your answer:*
+  Tag = fester Snapshot, Branch = laufende Entwicklung. Tags für Releases.
 
 **Question D – The value of CI for documentation:**
 Before this exercise, updating a diagram meant: edit the source, export an
@@ -656,13 +665,14 @@ sentences what the CI pipeline eliminates, and what new guarantee it provides
 instead.
 
 > *Your answer:*
+  CI automatisiert Rendern und garantiert konsistente Diagramme.
 
 > **Screenshot 6:** Take a screenshot of your terminal showing
 > `git log --oneline` with all commits from this exercise visible, then open
 > `schema.svg` from the Release in the same browser window alongside it.
 > Capture both in one screenshot and insert it here.
 >
-> `[insert screenshot]`
+>[ `https://github.com/yassnethga/DBMS_02/blob/4a537702d618a56fb6185ec92337c9fc9c5f576e/06_git_log_and_release.png.png`](https://github.com/yassnethga/DBMS_02/blob/4a537702d618a56fb6185ec92337c9fc9c5f576e/06_git_log_and_release.png.png)
 
 ---
 
@@ -710,7 +720,7 @@ instead.
    > **Screenshot 7:** Take a screenshot of your extended `schema.svg` and the
    > corresponding GitHub Release page, and insert it here.
    >
-   > `[insert screenshot]`
+   > [`https://github.com/yassnethga/DBMS_02/blob/4a537702d618a56fb6185ec92337c9fc9c5f576e/07_github_release_v2.png`](https://github.com/yassnethga/DBMS_02/blob/4a537702d618a56fb6185ec92337c9fc9c5f576e/07_github_release_v2.png)
 
 ---
 

@@ -1,8 +1,19 @@
 @startuml
 
-A }|--|{ B : "writes"
-B ||--|{ C : "is available as"
-M ||--o{ L : "places"
-C ||--o{ L : "is borrowed in"
+entity Book
+entity Author
+entity Copy
+entity Member
+entity Loan
+entity Genre
+entity Fine
+
+Author }|--|{ Book : writes
+Book ||--|{ Copy : has
+Member ||--o{ Loan : places
+Copy ||--o{ Loan : is borrowed in
+
+Genre ||--o{ Book : categorizes
+Loan ||--o| Fine : generates
 
 @enduml
